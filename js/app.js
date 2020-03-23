@@ -79,12 +79,12 @@ window.onload = function() {
     scrollCallback();
 
     //监听滚动事件
-    var top = $toc.offsetTop;
-    var left = $toc.offsetLeft;
-    var width = $toc.offsetWidth;
+
     window.addEventListener('scroll', function() {
         if ($toc) {
-          console.log(getScrollTop(), top, 'degger');
+          var top = $toc.offsetTop;
+          var left = $toc.offsetLeft;
+          var width = $toc.offsetWidth;
             if (getScrollTop() <= top) {
                 $toc.style = "";
             } else {
