@@ -1,0 +1,318 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="依禅 - 个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="https://fox-z.github.io">
+    <!--SEO-->
+
+<meta name="keywords" content="miniprogram" />
+
+
+<meta name="description" content="
+Taro小程序最近做的比较多的，业务涉及到都是表单相关组件，吃了不少苦头，于是就有了这篇文章，记录下经验，也希望能帮到你。
+
+本文的所有场景都是基于页面中有大量input,textarea等文..." />
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+<title>
+    
+    小程序输入框问题解决方案(Taro) |
+    
+    依禅 - 个人博客
+</title>
+
+<link rel="alternate" href="/atom.xml" title="依禅 - 个人博客" type="application/atom+xml">
+
+
+<link rel="icon" href="/favicon.ico">
+
+    
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash.css">
+
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    http://snippet.shenliyang.com/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='yichan'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block">
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://fox-z.github.io">
+                        依禅 - 个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/后端/"><i class="fa "></i>
+                                后端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/工具/"><i class="fa "></i>
+                                工具</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                时间轴</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="小程序输入框问题解决方案(Taro)">
+            
+            小程序输入框问题解决方案(Taro)
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/miniprogram/" rel="tag">miniprogram</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2020/05/20</span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <blockquote>
+<p>Taro小程序最近做的比较多的，业务涉及到都是表单相关组件，吃了不少苦头，于是就有了这篇文章，记录下经验，也希望能帮到你。</p>
+</blockquote>
+<p><strong>本文的所有场景都是基于页面中有大量input,textarea等文本输入组件</strong></p>
+<h3 id="你不知道的input"><a href="#你不知道的input" class="headerlink" title="你不知道的input"></a>你不知道的input</h3><ul>
+<li>input在聚焦focus时表现为原生组件，层级最高，脱离page限制，设置z-index都无法改变</li>
+<li>input默认有z-index: [1-2) 的层级，这个很多人都踩过坑<blockquote>
+<p>举个例子：某一个页面有大量输入框，底部有个悬浮的按钮btn, 固定定位的。当滑动页面 使btn覆盖在input上时，点击btn会发现注册在btn上的事件失效，点了没反应… ，如果这时脑子里想到的全是原生组件层级最高，那么你就进坑了，（没错，说的就是我）,然后就走向cover-view实现btn这条不归路，cover-view会定位错乱，滑动之后btn就飞了。</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 贴点代码 方便理解（错误示例）</span><br><span class="line"></span><br><span class="line">&lt;Input</span><br><span class="line">  className&#x3D;&quot;ipt&quot;</span><br><span class="line">  type&#x3D;&quot;number&quot;</span><br><span class="line">  placeholderClass&#x3D;&quot;ipt-place&quot;</span><br><span class="line">  value&#x3D;&#123;phone&#125;</span><br><span class="line">  onInput&#x3D;&#123;this.phoneChange&#125;</span><br><span class="line">  placeholder&#x3D;&quot;请输入手机号&quot;</span><br><span class="line">&gt;&lt;&#x2F;Input&gt;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 按钮</span><br><span class="line">&lt;View className&#x3D;&quot;btn-wrap&quot;&gt;</span><br><span class="line">  &lt;CoverView</span><br><span class="line">    className&#x3D;&quot;btn&quot;</span><br><span class="line">    onClick&#x3D;&#123;this.confirm&#125;</span><br><span class="line">  &gt;保存&lt;&#x2F;CoverView&gt;</span><br><span class="line">&lt;&#x2F;View&gt;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; css</span><br><span class="line"></span><br><span class="line">.btn-wrap&#123;</span><br><span class="line">  position: fixed;</span><br><span class="line">  bottom: 0;</span><br><span class="line">  left: 0;</span><br><span class="line">  z-index: 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>显然解决思路错了，实际上结合上面第一条和第二条就知道错在哪里了，input没有聚焦的时候不是原生组件。我思路错的原因在于我开始的时候btn-wrap的z-index设置为1了，<strong>以为比页面元素高</strong>，于是当按钮覆盖input的时候，input的层级在btn之上, 这就是奇怪的地方，同样是1，后设置zIndex的元素应该在上面，但是这个例子中在开发工具和真机上都表现出input在上面的情况。当我把btn-wrap的zIndex设置为2的时候表现正常了，按钮在上，点击也正常了。所以我得出结论，input有1-2的层级。底部按钮不需要使用cover-view,用普通的view即可。</p>
+<ul>
+<li>input类型为number在一些真机上会出现 聚焦时页面白屏，输入时闪烁的问题，替代方案是用digit,text, 之后结果自己处理下（正则限制）</li>
+</ul>
+<h3 id="TextArea的一些骚操作"><a href="#TextArea的一些骚操作" class="headerlink" title="TextArea的一些骚操作"></a>TextArea的一些骚操作</h3><ul>
+<li><p>原生组件，没有同层渲染，层级最高，页面中如果有弹窗就要注意了，textarea会覆盖在弹窗之上，不管你的弹窗层级多高。鉴于这种情况，弹窗，自定义头部等一切高于页面本身元素的组件建议用cover-view和cover-img搭配实现。</p>
+</li>
+<li><p>TextArea当作按钮，没错，你没听错</p>
+<p>说说为啥用TextArea做按钮，当一个全是Textarea输入框的时候，底部有悬浮按钮，按钮上绑定了事件handle，想象一下。这时候底部按钮就不能用普通的View了，层级原因，鉴于cover-view定位有问题的情况，我尝试了canvas，input，textarea，最后选择了textarea(disable)这种做按钮，并设置了zIndex，canvas 高版本sdk中为同层渲染，input也是。只能textarea了，以彼之道还施彼身。这样就覆盖在页面中的textarea之上了。</p>
+</li>
+</ul>
+<p><strong>以为textarea(disable)加个样式就实现了？？？</strong></p>
+<p>  上真机上一看，ios上按钮正常显示，点击按钮handle事件也执行了，别激动<br>  安卓上看看，按钮正常显示，点击，没反应。。。原因是disable导致的，于是乎我又开始拿出我的钻地弹了，各种尝试，终于发现textarea设置了padding有效，就是点击padding的区域，事件handle能执行，于是乎我设置padding充满了整个textarea，让按钮每一个角落都能点击。<br>  现在才说实现了 ui + 点击。（测试了部分机型，可以的，如果有其他机型不行，告诉我。当然如果原生textarea实现有变动，可能就用不了）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;Textarea</span><br><span class="line">  disabled</span><br><span class="line">  fixed</span><br><span class="line">  disableDefaultPadding</span><br><span class="line">&gt;&lt;&#x2F;Textarea&gt;</span><br><span class="line"></span><br><span class="line">textarea&#123;</span><br><span class="line">  height: 40px;</span><br><span class="line">  padding: 20px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="cover-view-amp-amp-cover-img组件使用注意事项"><a href="#cover-view-amp-amp-cover-img组件使用注意事项" class="headerlink" title="cover-view &amp;&amp; cover-img组件使用注意事项"></a>cover-view &amp;&amp; cover-img组件使用注意事项</h3><blockquote>
+<p>以下统称cover组件</p>
+</blockquote>
+<ul>
+<li><p>cover组件表现层级最高，cover-view 在小程序中是比较特殊的组件，与 view 的最大区别在于，它能覆盖在原生组件 map、video、canvas、camera 之上，且只能嵌套 cover-view， button 和 cover-image。如果说textarea是顶楼，那么cover就是天台，没有比cover组件层级更高的组件了。</p>
+</li>
+<li><p>cover-view 单边border设置无效<br>真机上表现为全border，所以需要处理，思路有两种</p>
+<ul>
+<li>再写一个cover-view高度为1，背景色设置为边框色</li>
+<li>让ui切个边框图，写一个cover-img实现</li>
+</ul>
+</li>
+<li><p>cover-view在fixed的盒子中，无法正常定位，会随页面的滚动而滚动</p>
+</li>
+</ul>
+<blockquote>
+<p>同样是底部按钮悬浮的场景</p>
+</blockquote>
+<p>这种情况是基础库低于1.9.90版本出现的，由于最外层 cover-view 不支持 position: fixed; 所以最外层盒子采用 view 定位 position: fixed;<br>基础库 1.9.90 起最外层 cover-view 支持 position: fixed, 但是在部分机型上仍然会出现 键盘弹起，滑动页面 场景下 定位错乱的问题，目前还未解决，但是有替代方案textarea。</p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="https://fox-z.github.io" target="_blank">依禅</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+    <a href="/2020/03/22/hello-world/" class="next-post btn btn-default" title='Hello World'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            Hello World</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+<p>评论系统未开启，无法评论！</p>
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#你不知道的input"><span class="toc-text">你不知道的input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TextArea的一些骚操作"><span class="toc-text">TextArea的一些骚操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cover-view-amp-amp-cover-img组件使用注意事项"><span class="toc-text">cover-view &amp;&amp; cover-img组件使用注意事项</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2020
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="/js/app.js?rev=@@hash.js"></script>
+
+</body>
+</html>
