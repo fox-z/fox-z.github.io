@@ -79,19 +79,19 @@ window.onload = function() {
     scrollCallback();
 
     //监听滚动事件
+    if ($toc) {
+      var $toctop = $toc.offsetTop;
+      var $tocleft = $toc.offsetLeft;
+      var $tocwidth = $toc.offsetWidth;
+    }
     window.addEventListener('scroll', function() {
-        if ($toc) {
-            var top = $toc.offsetTop;
-            var left = $toc.offsetLeft;
-            var width = $toc.offsetWidth;
-            if (getScrollTop() <= top) {
-                $toc.style = "";
-            } else {
-                $toc.style.position = "fixed";
-                $toc.style.top = "5px";
-                $toc.style.left = left + "px";
-                $toc.style.width = width + "px"
-            }
+        if (getScrollTop() <= $toctop) {
+          $toc.style = "";
+        } else {
+            $toc.style.position = "fixed";
+            $toc.style.top = "5px";
+            $toc.style.left = $tocleft + "px";
+            $toc.style.width = $tocwidth + "px"
         }
         clearTimeout(timer);
         timer = setTimeout(function fn() {
