@@ -275,8 +275,8 @@ Puppeteer 提供了一系列 API，通过 Chrome DevTools ..." />
 <li><p>几个核心启动项</p>
 <ul>
 <li>headless: true, // 是否以 无头模式 运行浏览器 false 打开浏览器，设置 true 不打开 无头浏览器</li>
-<li>args: [<br>  ‘–no-sandbox’, // 如果没有可用于Chrome的优质沙箱，它将因错误崩溃，如果您完全信任在Chrome中打开的内容，则可以使用以下–no-sandbox参数启动Chrome<br>  ‘–single-process’, // Dom解析和渲染放到同一进程<br>  ‘–disable-gpu’, // disable掉，比如GPU、Sandbox、插件等，减少内存的使用和相关计算<br>  ‘–disable-dev-shm-usage’, // 禁止使用 /dev/shm 共享内存 (Chrome 默认使用 /dev/shm 共享内存docker 默认/dev/shm 只有64MB)<br>  ‘–disable-setuid-sandbox’, // Disable the setuid sandbox (Linux only). ↪<br>  ‘–no-first-run’, // 跳过第一次运行任务<br>  ‘–no-zygote’, // 禁止使用合子进程来分叉子进程<br>],</li>
-<li>ignoreDefaultArgs: [ ‘–disable-extensions’ ], // 扩展程序</li>
+<li>args: [<br>  ‘–no-sandbox’, // 如果没有可用于Chrome的优质沙箱，它将因错误崩溃，如果您完全信任在Chrome中打开的内容，则可以使用以下–no-sandbox参数启动Chrome<br>  ‘-–single-process’, // Dom解析和渲染放到同一进程<br>  ‘-–disable-gpu’, // disable掉，比如GPU、Sandbox、插件等，减少内存的使用和相关计算<br>  ‘-–disable-dev-shm-usage’, // 禁止使用 /dev/shm 共享内存 (Chrome 默认使用 /dev/shm 共享内存docker 默认/dev/shm 只有64MB)<br>  ‘-–disable-setuid-sandbox’, // Disable the setuid sandbox (Linux only). ↪<br>  ‘-–no-first-run’, // 跳过第一次运行任务<br>  ‘-–no-zygote’, // 禁止使用合子进程来分叉子进程<br>],</li>
+<li>ignoreDefaultArgs: [ ‘–disable-extensions’, ‘–enable-automation’ ], // 扩展程序</li>
 </ul>
 <p>说明：</p>
 <ul>
